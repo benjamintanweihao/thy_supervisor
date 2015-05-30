@@ -7,8 +7,6 @@ defmodule ThyWorker do
     receive do
       :stop -> :ok
 
-      :crash -> 1 / 0
-
       msg ->
         IO.inspect msg
         loop
