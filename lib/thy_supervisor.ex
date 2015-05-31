@@ -14,7 +14,7 @@ defmodule ThySupervisor do
   end
 
   def start_child(supervisor, child_spec) do
-    supervisor |> send({:start_child, self, child_spec}
+    supervisor |> send({:start_child, self, child_spec})
     receive do
       {:ok, pid}  ->
         {:ok, pid}
