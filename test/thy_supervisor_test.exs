@@ -16,14 +16,8 @@ defmodule ThySupervisorTest do
     {:ok, child_pid} = ThySupervisor.start_child(sup_pid, {ThyWorker, :start_link, []})
 
     assert :ok  == ThySupervisor.terminate_child(sup_pid, child_pid)
-    assert true == Process.alive?(sup_pid)
+    assert Process.alive?(sup_pid)
     assert 0    == ThySupervisor.count_children(sup_pid)
-  end
-
-  test "can be stopped" do
-    {:ok, sup_pid} = ThySupervisor.start_link(child_spec_list)
-    assert :ok     == ThySupervisor.stop(sup_pid)
-    assert false   == Process.alive?(sup_pid)
   end
 
   test "restarts an abnormally terminated child" do
@@ -32,6 +26,7 @@ defmodule ThySupervisorTest do
 
     Process.exit(child_pid, :crash)
     refute Process.alive?(child_pid)
+
     new_child_pid = ThySupervisor.which_children(sup_pid) |> HashDict.keys |> List.first
 
     assert 1 == ThySupervisor.count_children(sup_pid)
